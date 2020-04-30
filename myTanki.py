@@ -86,7 +86,7 @@ class Tank:
         self.draw()
     
 class Bullet:
-    def __init__(self,bullet_x=0,bullet_y=0,bullet_color=(0,0,0),direction=Direction.LEFT,bullet_speed=1):
+    def __init__(self,bullet_x=0,bullet_y=0,bullet_color=(0,0,0),direction=Direction.LEFT,bullet_speed=15):
         self.bullet_x = bullet_x
         self.bullet_y = bullet_y
         self.bullet_color = bullet_color
@@ -141,14 +141,13 @@ def collision():
             
             if (tank.x+tank.width+bull. bullet_radius > bull. bullet_x > tank.x - bull. bullet_radius ) and ((tank.y+tank.width + bull. bullet_radius > bull. bullet_y > tank.y - bull. bullet_radius)) and bull. bullet_status==True:
                 CollSound.play()
-                bull. bullet_color=(0,0,0)
+                bull.bullet_color=(0,0,0)
                 tank.score -= 1
                 
                 bull.bullet_status=False
                 
                 tank.x=random.randint(50,width-70)
                 tank.y=random.randint(50,height-70)
-
             if tanks[1].score == 0:
                 font1 = pygame.font.SysFont('Arial', 50)
                 text = font1.render("GAME OVER! Purple tank is winner", 1, (128,0,128))
@@ -160,12 +159,14 @@ def collision():
                 text = font2.render("GAME OVER! Yellow tank is winner!", 1, (204, 196, 0))
                 coordinates = text.get_rect(center = (400, 300))
                 screen.blit(text, coordinates)
+                Over.play()
+
 
 def score():
     score1= tanks[1].score
     score2= tanks[0].score
-    res = font.render(str(score1), True, (128,0,128))
-    res1 = font.render(str(score2), True, (204, 196, 0))
+    res = font.render(str(score1), True, (204, 196, 0))
+    res1 = font.render(str(score2), True, (128,0,128))
     screen.blit(res, (30,30))
     screen.blit(res1, (750,30))
 
@@ -173,8 +174,8 @@ def score():
 
 
 mainloop = True
-tank1 = Tank(350,350,4,(128,0,128))
-tank2 = Tank(100,100,4,(204, 196, 0),pygame.K_d,pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_SPACE)
+tank1 = Tank(350,350,20,(128,0,128))
+tank2 = Tank(100,100,20,(204, 196, 0),pygame.K_d,pygame.K_a,pygame.K_w,pygame.K_s,pygame.K_SPACE)
 
 bullet1=Bullet()
 bullet2=Bullet()
@@ -207,6 +208,7 @@ while mainloop:
                 if pressed[tank.KEYSHOT]:
                     BulSound.play()
                     location(tank)
+        
                     
 
     collision()
